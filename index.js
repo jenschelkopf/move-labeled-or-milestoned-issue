@@ -10,7 +10,15 @@ async function run() {
     const milestoneName = core.getInput("milestone-name");
     const ignoreList = core.getInput("columns-to-ignore");
     const octokit = new github.GitHub(myToken);
-    const context = github.context;
+    var issue = github.context.payload.issue;
+    
+//     if(github.event && github.event.inputs) {
+//         issue = await octokit.issues.get({
+//             owner: github.context.repo.owner,
+//             repo: github.context.repo.repo,
+//             issue_number: github.event.inputs.issue_number
+//         });
+//     }
 
     if(!milestoneName && !labelName){
         throw new Error("one of label-name and milestone-name must be set");
@@ -21,21 +29,21 @@ async function run() {
 
     var found = false;
     if(labelName){
-        context.payload.issue.labels.forEach(function(item){
+        issue.labels.forEach(function(item){
             if(labelName == item.name){
                 found = true;
             }
         });
     }
     if(milestoneName){
-        if(context.payload.issue.milestone && context.payload.issue.milestone.title == milestoneName){
+        if(issue.milestone && issue.milestone.title == milestoneName){
             found = true;
         }
     }
 
     if(found){
         // get the columnId for the project where the issue should be added/moved
-        var info = await tryGetColumnAndCardInformation(columnName, projectUrl, myToken, context.payload.issue.id);
+        var info = await tryGetColumnAndCardInformation(columnName, projectUrl, myToken, issue.id);
         var columnId = info[0];
         var cardId = info[1];
         var currentColumn = info[2];
@@ -58,11 +66,11 @@ async function run() {
         } else {
             // card is not present
             // create new card in the appropriate column
-            return await createNewCard(octokit, columnId, context.payload.issue.id);
+            return await createNewCard(octokit, columnId, issue.id);
         }
     } else {
         // None of the labels match what we are looking for, non-indicative of a failure though
-        return `Issue #${context.payload.issue.id} does not have a label that matches ${labelName}, ignoring`;
+        return `Issue #${issue.id} does not have a label that matches ${labelName}, ignoring`;
     }
 }
 
