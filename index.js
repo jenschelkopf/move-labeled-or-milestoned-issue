@@ -12,7 +12,6 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     var issue = github.context.payload.issue;
     
-    console.log(`Event ${github.event}`);
     
     if(github.context.payload.inputs) {
         console.log(`Using issue number ${github.context.payload.inputs.issueNumber}`);
@@ -20,7 +19,7 @@ async function run() {
         issue = await octokit.issues.get({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
-            issue_number: github.event.inputs.issueNumber
+            issue_number: github.context.payload.inputs.issueNumber
         });
     }
 
