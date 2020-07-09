@@ -25,7 +25,7 @@ async function run() {
         console.log(`Issue response data: ${JSON.stringify(issueResponse.data)}`);
         
         issue = issueResponse.data;
-        console.log(`Issue: ${JSON.stringify(issue)});
+        console.log(`Issue: ${JSON.stringify(issue)}`);
     }
 
     if(!milestoneName && !labelName){
