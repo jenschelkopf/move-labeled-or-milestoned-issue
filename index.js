@@ -12,6 +12,8 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     var issue = github.context.payload.issue;
     
+    console.log(`Event ${github.event}`);
+    
     if(github.event && github.event.inputs) {
         console.log(`Using issue number ${github.event.inputs.issueNumber}`);
         
