@@ -13,6 +13,8 @@ async function run() {
     var issue = github.context.payload.issue;
     
     if(github.event && github.event.inputs) {
+        console.log(`Using issue number ${github.event.inputs.issue_number}`);
+        
         issue = await octokit.issues.get({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
