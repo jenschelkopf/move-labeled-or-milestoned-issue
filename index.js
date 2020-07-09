@@ -21,11 +21,8 @@ async function run() {
             repo: github.context.repo.repo,
             issue_number: github.context.payload.inputs.issueNumber
         });
-        console.log(`Issue response: ${JSON.stringify(issueResponse)}`);
-        console.log(`Issue response data: ${JSON.stringify(issueResponse.data)}`);
         
         issue = issueResponse.data;
-        console.log(`Issue: ${JSON.stringify(issue)}`);
     }
 
     if(!milestoneName && !labelName){
