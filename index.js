@@ -16,13 +16,16 @@ async function run() {
     if(github.context.payload.inputs) {
         console.log(`Using issue number ${github.context.payload.inputs.issueNumber}`);
         
-        issue = await octokit.issues.get({
+        const issueResponse = await octokit.issues.get({
             owner: github.context.repo.owner,
             repo: github.context.repo.repo,
             issue_number: github.context.payload.inputs.issueNumber
         });
-        console.log(`Issue: ${JSON.stringify(issue)}`);
-        console.log(`Issue data: ${JSON.stringify(issue.data)}`);
+        console.log(`Issue response: ${JSON.stringify(issueResponse)}`);
+        console.log(`Issue response data: ${JSON.stringify(issueResponse.data)}`);
+        
+        issue = issueResponse.data;
+        console.log(`Issue: ${JSON.stringify(issue)});
     }
 
     if(!milestoneName && !labelName){
