@@ -12,13 +12,13 @@ async function run() {
     const octokit = new github.GitHub(myToken);
     var issue = github.context.payload.issue;
     
-//     if(github.event && github.event.inputs) {
-//         issue = await octokit.issues.get({
-//             owner: github.context.repo.owner,
-//             repo: github.context.repo.repo,
-//             issue_number: github.event.inputs.issue_number
-//         });
-//     }
+    if(github.event && github.event.inputs) {
+        issue = await octokit.issues.get({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            issue_number: github.event.inputs.issue_number
+        });
+    }
 
     if(!milestoneName && !labelName){
         throw new Error("one of label-name and milestone-name must be set");
