@@ -14,8 +14,8 @@ async function run() {
     
     console.log(`Event ${github.event}`);
     
-    if(github.event && github.event.inputs) {
-        console.log(`Using issue number ${github.event.inputs.issueNumber}`);
+    if(github.context.payload.inputs) {
+        console.log(`Using issue number ${github.context.payload.inputs.issueNumber}`);
         
         issue = await octokit.issues.get({
             owner: github.context.repo.owner,
